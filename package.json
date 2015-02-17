@@ -1,0 +1,12 @@
+{
+  "name": "GmCanvas",
+  "version": "0.0.1",
+  "description": "Canvas is powerful",
+  "main": "server.js",
+  "dependencies": {
+    "express": "^4.11.2",
+    "socket.io": "^1.3.4"
+  },
+  "author": "Gman.Park",
+  "license": "MIT"
+}
