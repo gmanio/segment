@@ -1,10 +1,92 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-	<meta charset="UTF-8">
+	<meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no" charset="UTF-8">
 	<title>controller</title>
+	<style>
+		body{margin:0}
+		.controller{overflow:hidden;display:inline-block;margin:0 4px;width:40px;height:100px;text-align:center}
+		.controlWrapper{margin:0 auto;text-align:center}
+		[class*=btn]{position:relative;display:inline-block;width:30px;height:30px;border:1px solid #666;border-radius:30px;background-color:#ddd}
+		[class*=btn]:before{position:absolute;display:inline-block;left:7px;width:0;height:0;border-color:#eee;border-width:8px;border-style:solid;content:''}
+		.btn_up:before{border-color:transparent transparent #000}
+		.btn_dn:before{top:13px;border-color:#000 transparent transparent}
+		.btn_start_clock{display:block;margin:20px 0;width:100%;height:30px;line-height:30px;border:0;font-size:20px;font-weight:bold;text-align:center}
+		.btn_start_clock:before{display:none}
+		.btn_stop_clock{display:block;margin:20px 0;width:100%;height:30px;line-height:30px;border:0;font-size:20px;font-weight:bold;text-align:center;background-color:#ff1212}
+		.btn_stop_clock:before{display:none}
+	</style>
 </head>
 <body>
+<div id="wrap">
+	<div id="startClock" class="btn_start_clock">
+		<span>Run Clock</span>
+	</div>
+	<div class="controlWrapper">
+		<div id="con0" class="controller">
+			<span>con0</span>
+			<div class="btn_up"></div>
+			<div class="btn_dn"></div>
+		</div>
+		<div id="con1" class="controller">
+			<span>con1</span>
+			<div class="btn_up"></div>
+			<div class="btn_dn"></div>
+		</div>
+		<div id="con2" class="controller">
+			<span>con2</span>
+			<div class="btn_up"></div>
+			<div class="btn_dn"></div>
+		</div>
+		<div id="con3" class="controller">
+			<span>con3</span>
+			<div class="btn_up"></div>
+			<div class="btn_dn"></div>
+		</div>
+		<div id="con4" class="controller">
+			<span>con4</span>
+			<div class="btn_up"></div>
+			<div class="btn_dn"></div>
+		</div>
+		<div id="con5" class="controller">
+			<span>con5</span>
+			<div class="btn_up"></div>
+			<div class="btn_dn"></div>
+		</div>
+	</div>
+	<div id="stopClock" class="btn_stop_clock">
+		<span>Stop Clock</span>
+	</div>
+</div>
+<script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+<script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.4/socket.io.min.js"></script>
+<script>
+	var socket = io();
 
+	socket.on('welcome', function(data){
+		console.log(data.msg);
+	})
+
+	$('.btn_up').on('click',function(){
+		socket.emit('actUp',{sid:$(this).parent().attr('id').replace(/\D/g,'')});
+	})
+
+	$('.btn_dn').on('click',function(){
+		socket.emit('actDn',{sid:$(this).parent().attr('id').replace(/\D/g,'')});
+	})
+
+	$('#startClock').on('click', function(){
+		socket.emit('startClock');
+	})
+
+	$('#stopClock').on('click', function(){
+		socket.emit('stopClock');
+	})
+
+	window.onload = function(){
+		$('script').remove();
+	}
+</script>
 </body>
 </html>

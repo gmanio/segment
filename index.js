@@ -1,18 +1,19 @@
-var http = require('http');
 var net = require('net');
-var socket = new net.Socket(
-    { fd: null,
-        allowHalfOpen: false,
-        readable: false,
-        writable: false
+
+var server = net.createServer(function(c) { //'connection' listener
+    console.log('client connected');
+});
+
+server.on('error', function (e) {
+    if (e.code == 'EADDRINUSE') {
+        console.log('Address in use, retrying...');
+        setTimeout(function () {
+            server.close();
+            server.listen(PORT, HOST);
+        }, 1000);
     }
-);
+});
 
-var server = http.createServer(function (req, res) {
-    res.writeHead(200, {'Content-Type': 'text/plain'});
-    res.end('okay');
-})
-
-server.listen(5000);
-
-//socket.connect()
+server.listen(3000, function() { //'listening' listener
+    console.log('server bound');
+});
